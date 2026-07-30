@@ -104,4 +104,10 @@ export function timeAgo(iso: string, now = Date.now()): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
-export const explorerUrl = (id: string) => `https://solscan.io/account/${id}`;
+/** Block explorer for an address. Overridable so a fork can point elsewhere. */
+const EXPLORER_BASE = process.env["EXPLORER_BASE_URL"] ?? "https://solscan.io/account";
+
+export const explorerUrl = (id: string) => `${EXPLORER_BASE}/${id}`;
+
+/** The public API this deployment reads, for linking readers straight at it. */
+export const apiBaseUrl = API_BASE;

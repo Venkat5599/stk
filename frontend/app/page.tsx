@@ -1,6 +1,7 @@
 import { Fingerprint } from "@/components/Fingerprint";
 import { Ticker } from "@/components/Ticker";
 import {
+  apiBaseUrl,
   explorerUrl,
   fetchPrograms,
   fetchStats,
@@ -30,7 +31,7 @@ export default async function Home() {
           </a>
           <a
             className={styles.navLink}
-            href="https://stk-api.187.127.137.136.sslip.io/api/programs?window=today"
+            href={`${apiBaseUrl}/api/programs?window=today`}
             rel="noreferrer noopener"
             target="_blank"
           >
