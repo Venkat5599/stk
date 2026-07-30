@@ -1,0 +1,249 @@
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem) 4rem;
+}
+
+/* --- masthead ----------------------------------------------------------- */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1.75rem;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  font-family: var(--mono);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.tagline {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
+.source {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-bottom: 1px solid transparent;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.source:hover {
+  color: var(--text);
+  border-bottom-color: var(--edge-strong);
+}
+
+/* --- the ledger owns the fold ------------------------------------------- */
+
+.ledger {
+  padding: clamp(2rem, 5vw, 3.25rem) 0 2.5rem;
+}
+
+.figureGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(2.5rem, 8vw, 6rem);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.figureValue {
+  font-family: var(--mono);
+  /* large, but with room to breathe — tracking opens up rather than tightening */
+  font-size: clamp(3rem, 9vw, 5.25rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.figureLabel {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.ledgerNote {
+  max-width: 46rem;
+  margin: 2.25rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* --- the record --------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--edge);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: 1.1rem 0.25rem;
+  border-bottom: 1px solid var(--edge);
+  transition: background-color 140ms ease;
+}
+
+.row:hover {
+  background-color: var(--ink-raised);
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  height: 28px;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.address {
+  font-family: var(--mono);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  border-bottom: 1px solid transparent;
+  transition: border-color 140ms ease;
+  align-self: flex-start;
+}
+
+.address:hover {
+  border-bottom-color: var(--edge-strong);
+}
+
+.meta {
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.verdict {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  text-align: right;
+}
+
+.verdictNew,
+.verdictCopy {
+  font-size: 0.9rem;
+}
+
+.verdictNew {
+  color: var(--verdict-new);
+}
+
+.verdictCopy {
+  color: var(--verdict-copy);
+}
+
+.copyOf {
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  font-family: var(--mono);
+  border-bottom: 1px solid transparent;
+  transition: border-color 140ms ease;
+}
+
+a.copyOf:hover {
+  border-bottom-color: var(--edge-strong);
+}
+
+.rowCopy .address {
+  color: var(--text-muted);
+}
+
+/* --- states ------------------------------------------------------------- */
+
+.quiet {
+  padding: 4rem 0;
+  color: var(--text-muted);
+  max-width: 40rem;
+}
+
+.outage {
+  max-width: 34rem;
+  margin: clamp(5rem, 20vh, 12rem) auto;
+  text-align: center;
+}
+
+.outageTitle {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: 0 0 0.9rem;
+}
+
+.outageBody {
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0 0 1.75rem;
+}
+
+.retry {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--edge-strong);
+  border-radius: 2px;
+  padding: 0.6rem 1.4rem;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.retry:hover {
+  background: var(--ink-lifted);
+}
+
+/* --- footer ------------------------------------------------------------- */
+
+.footer {
+  padding-top: 2.5rem;
+}
+
+.footerNote {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 40rem) {
+  .row {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 0.75rem;
+  }
+
+  .verdict {
+    grid-column: 2;
+    align-items: flex-start;
+    text-align: left;
+  }
+}

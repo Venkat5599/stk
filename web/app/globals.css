@@ -1,0 +1,85 @@
+/*
+  One system, held everywhere.
+
+  The base is a warm near-black rather than the blue-charcoal every dark
+  product ships. Nothing on this page is a saturated brand colour: emphasis is
+  a value shift, not a hue, so the only real colour on screen belongs to the
+  data itself.
+*/
+
+:root {
+  --ink: #0b0a09;
+  --ink-raised: #131110;
+  --ink-lifted: #1a1817;
+
+  --edge: rgba(255, 250, 244, 0.07);
+  --edge-strong: rgba(255, 250, 244, 0.13);
+
+  --text: #f2ece4;
+  --text-muted: #9c948a;
+  --text-faint: #6a635b;
+
+  /* The two verdicts. Both are tonal: a warm bone for original code, a
+     recessed clay for a copy. Neither shouts; the difference is legible
+     because the values are far apart, not because a colour is loud. */
+  --verdict-new: #f2ece4;
+  --verdict-copy: #8a6f5c;
+
+  --measure: 68rem;
+  --step: 0.5rem;
+
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* A single warm light source, top-left, falling off across the page. This is
+     the only gradient in the system and it never restarts at a section edge. */
+  background-image: radial-gradient(
+    120rem 60rem at 12% -10%,
+    rgba(255, 236, 214, 0.05),
+    transparent 60%
+  );
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(242, 236, 228, 0.16);
+}
+
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,27 +1,19 @@
 import bs58 from "bs58";
 import { rpcUrl } from "./config.js";
 
-// ---------------------------------------------------------------------------
-// A small JSON-RPC client for the one thing this product reads from the chain:
-// the upgradeable loader's accounts.
-//
-// Layout of a ProgramData account (what the loader stores the bytecode in):
-//   0..4    u32   discriminator, 3 = ProgramData
-//   4..12   u64   slot it was last deployed or upgraded at
-//   12      u8    Option tag for the upgrade authority
-//   13..45  [u8]  upgrade authority pubkey
-//   45..    [u8]  the ELF
-//
-// And a Program account (the thing you actually call), 36 bytes:
-//   0..4    u32   discriminator, 2 = Program
-//   4..36   [u8]  the address of its ProgramData account
-// ---------------------------------------------------------------------------
-
+/** The upgradeable loader. Every program this tracks is owned by it. */
 export const LOADER = "BPFLoaderUpgradeab1e11111111111111111111111";
 
-/** Byte offset where the ELF starts inside a ProgramData account. */
+/**
+ * Byte offset where the ELF starts inside a ProgramData account.
+ *
+ * The header is a u32 discriminator (3), the u64 slot it was last deployed at,
+ * a u8 Option tag for the upgrade authority, then a 32-byte authority pubkey.
+ * That comes to 45 bytes; everything after it is the program itself.
+ */
 export const BYTECODE_OFFSET = 45;
 
+/** A Program account: u32 discriminator (2), then its ProgramData address. */
 const DISCRIMINATOR_PROGRAM = discriminator(2);
 const DISCRIMINATOR_PROGRAM_DATA = discriminator(3);
 

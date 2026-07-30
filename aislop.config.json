@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "web/next-env.d.ts",
+    "**/.next/**",
+    "**/dist/**"
+  ]
+}
