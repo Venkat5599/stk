@@ -1,32 +1,30 @@
 /*
   One system, held everywhere.
 
-  The base is a warm near-black rather than the blue-charcoal every dark
-  product ships. Nothing on this page is a saturated brand colour: emphasis is
-  a value shift, not a hue, so the only real colour on screen belongs to the
-  data itself.
+  Strictly monochrome: a single neutral ramp from near-black to bone, and
+  nothing else. There is no accent hue anywhere in this interface, so the only
+  thing that can carry emphasis is value — which means the fingerprints and the
+  numbers are the only things on screen with any weight to them.
 */
 
 :root {
-  --ink: #0b0a09;
-  --ink-raised: #131110;
-  --ink-lifted: #1a1817;
+  --ink: #0a0a0a;
+  --ink-raised: #101010;
+  --ink-lifted: #171717;
 
-  --edge: rgba(255, 250, 244, 0.07);
-  --edge-strong: rgba(255, 250, 244, 0.13);
+  --edge: rgba(255, 255, 255, 0.07);
+  --edge-strong: rgba(255, 255, 255, 0.14);
 
-  --text: #f2ece4;
-  --text-muted: #9c948a;
-  --text-faint: #6a635b;
+  --text: #ededed;
+  --text-muted: #8e8e8e;
+  --text-faint: #5a5a5a;
 
-  /* The two verdicts. Both are tonal: a warm bone for original code, a
-     recessed clay for a copy. Neither shouts; the difference is legible
-     because the values are far apart, not because a colour is loud. */
-  --verdict-new: #f2ece4;
-  --verdict-copy: #8a6f5c;
+  /* The two verdicts, separated by value alone: original code reads at full
+     strength, a copy sits recessed. Neither is a colour. */
+  --verdict-new: #f2f2f2;
+  --verdict-copy: #6d6d6d;
 
-  --measure: 68rem;
-  --step: 0.5rem;
+  --measure: 78rem;
 
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -50,14 +48,6 @@ body {
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  /* A single warm light source, top-left, falling off across the page. This is
-     the only gradient in the system and it never restarts at a section edge. */
-  background-image: radial-gradient(
-    120rem 60rem at 12% -10%,
-    rgba(255, 236, 214, 0.05),
-    transparent 60%
-  );
-  background-attachment: fixed;
 }
 
 a {
@@ -66,7 +56,7 @@ a {
 }
 
 ::selection {
-  background: rgba(242, 236, 228, 0.16);
+  background: rgba(237, 237, 237, 0.18);
 }
 
 :focus-visible {

@@ -60,33 +60,27 @@ export default async function Home() {
 
       <main className={styles.page}>
         <section className={styles.readout} aria-label="Last 24 hours">
-          <div className={styles.figure}>
-            <span className={styles.figureValue}>{stats.deploys}</span>
-            <span className={styles.figureLabel}>Deployed</span>
-          </div>
-          <div className={styles.figure}>
-            <span className={styles.figureValue}>{stats.fresh}</span>
-            <span className={styles.figureLabel}>New code</span>
-          </div>
-          <div className={styles.figure}>
-            <span className={styles.figureValue}>{stats.copies}</span>
-            <span className={styles.figureLabel}>Copies</span>
-          </div>
-          <div className={styles.figure}>
-            <span className={styles.figureValue}>
-              {copyRate === null ? "\u2014" : `${copyRate}%`}
+          <div className={styles.headline}>
+            <span className={styles.headlineValue}>{stats.fresh}</span>
+            <span className={styles.headlineLabel}>
+              programs carried new code in the last 24h
             </span>
-            <span className={styles.figureLabel}>Copy rate</span>
+          </div>
+          <div className={styles.readoutAside}>
+            <span>{stats.deploys} deployed</span>
+            <span className={styles.dot}>&middot;</span>
+            <span>{stats.copies} copies</span>
+            <span className={styles.dot}>&middot;</span>
+            <span>{copyRate === null ? "\u2014" : `${copyRate}% copy rate`}</span>
           </div>
         </section>
 
         <section id="record" className={styles.record}>
           <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>The record</h2>
+            <h2 className={styles.sectionTitle}>The record &mdash; every deploy, hashed</h2>
+            <span className={styles.rule} aria-hidden="true" />
             <span className={styles.sectionMeta}>
-              {stats.recordBeganAt
-                ? `Begins ${timeAgo(stats.recordBeganAt)} \u00b7 ${page.total} programs`
-                : `${page.total} programs`}
+              {stats.recordBeganAt ? `begins ${timeAgo(stats.recordBeganAt)}` : null}
             </span>
           </div>
 
@@ -96,33 +90,11 @@ export default async function Home() {
               quiet, not stk failing to look.
             </p>
           ) : (
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th className={styles.thMark} scope="col">
-                    Fingerprint
-                  </th>
-                  <th scope="col">Program</th>
-                  <th className={styles.thNum} scope="col">
-                    Age
-                  </th>
-                  <th className={styles.thNum} scope="col">
-                    Size
-                  </th>
-                  <th className={styles.thNum} scope="col">
-                    Slot
-                  </th>
-                  <th className={styles.thEnd} scope="col">
-                    Verdict
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {page.items.map((program) => (
-                  <Row key={program.programId} program={program} />
-                ))}
-              </tbody>
-            </table>
+            <ol className={styles.list}>
+              {page.items.map((program) => (
+                <Card key={program.programId} program={program} />
+              ))}
+            </ol>
           )}
         </section>
 
@@ -139,47 +111,64 @@ export default async function Home() {
   );
 }
 
-function Row({ program }: { program: Program }) {
+function Card({ program }: { program: Program }) {
   const isCopy = program.verdict === "copy";
 
   return (
-    <tr className={isCopy ? styles.rowCopy : undefined}>
-      <td className={styles.tdMark}>
-        <Fingerprint sha256={program.sha256} height={20} muted={isCopy} />
-      </td>
-      <td>
-        <a
-          className={styles.address}
-          href={explorerUrl(program.programId)}
-          rel="noreferrer noopener"
-          target="_blank"
-        >
-          {shortAddress(program.programId, 6)}
-        </a>
-      </td>
-      <td className={styles.tdNum}>{timeAgo(program.firstSeenAt)}</td>
-      <td className={styles.tdNum}>{formatSize(program.sizeBytes)}</td>
-      <td className={styles.tdNum}>{program.deploySlot.toLocaleString("en-US")}</td>
-      <td className={styles.tdEnd}>
-        {isCopy && program.copyOf ? (
-          <>
-            <span className={styles.copy}>COPY</span>
-            <a
-              className={styles.copyOf}
-              href={explorerUrl(program.copyOf)}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              of {shortAddress(program.copyOf, 4)}
-            </a>
-          </>
-        ) : (
-          <>
-            <span className={styles.new}>NEW</span>
-            <span className={styles.copyOf}>no earlier copy</span>
-          </>
-        )}
-      </td>
-    </tr>
+    <li className={isCopy ? `${styles.card} ${styles.cardCopy}` : styles.card}>
+      <div className={styles.cardBody}>
+        <div className={styles.cardTitle}>
+          <a
+            className={styles.address}
+            href={explorerUrl(program.programId)}
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            {shortAddress(program.programId, 6)}
+          </a>
+          <span className={isCopy ? styles.tagCopy : styles.tagNew}>
+            {isCopy ? "COPY" : "NEW CODE"}
+          </span>
+        </div>
+
+        <p className={styles.cardLine}>
+          seen {timeAgo(program.firstSeenAt)}
+          {isCopy && program.copyOf ? (
+            <>
+              {" \u00b7 copies "}
+              <a
+                className={styles.copyOf}
+                href={explorerUrl(program.copyOf)}
+                rel="noreferrer noopener"
+                target="_blank"
+              >
+                {shortAddress(program.copyOf, 6)}
+              </a>
+            </>
+          ) : (
+            " \u00b7 no earlier copy on record"
+          )}
+        </p>
+
+        <dl className={styles.facts}>
+          <div className={styles.fact}>
+            <dt>size</dt>
+            <dd>{formatSize(program.sizeBytes)}</dd>
+          </div>
+          <div className={styles.fact}>
+            <dt>slot</dt>
+            <dd>{program.deploySlot.toLocaleString("en-US")}</dd>
+          </div>
+          <div className={styles.fact}>
+            <dt>sha256</dt>
+            <dd>{program.sha256.slice(0, 16)}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div className={styles.cardMark}>
+        <Fingerprint sha256={program.sha256} height={44} muted={isCopy} />
+      </div>
+    </li>
   );
 }

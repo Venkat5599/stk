@@ -1,4 +1,21 @@
-# stk
+# stk## Layout
+
+| Path | What it is |
+| --- | --- |
+| `server/` | Fastify API, the poller, and Postgres. Runs as one process. |
+| `frontend/` | Next.js App Router front end, deployed to Vercel. |
+| `packages/sdk/` | `@stk/sdk` — typed client for the public API. |
+| `docs/` | [API reference](docs/API.md) and [architecture notes](docs/ARCHITECTURE.md). |
+
+## The interface
+
+Strictly monochrome. There is no accent hue anywhere in it, so the only things
+that carry weight are the numbers and the fingerprints.
+
+That fingerprint is the point. Each program is drawn as 32 bars, one per byte of
+its SHA-256, height and tone taken from the byte value. It is not ornament: two
+programs carrying identical bytecode draw an identical mark, so a copy is
+recognisable before you have read a character of its address.
 
 **Is this Solana program new code, or a copy of something already deployed?**
 

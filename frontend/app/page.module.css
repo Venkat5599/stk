@@ -4,8 +4,8 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  padding: 0 clamp(1rem, 3vw, 2rem);
-  height: 46px;
+  padding: 0 clamp(1rem, 4vw, 2.5rem);
+  height: 48px;
   border-bottom: 1px solid var(--edge);
   background: var(--ink-raised);
 }
@@ -40,155 +40,162 @@
   color: var(--text-faint);
 }
 
-/* --- hero: the wordmark owns the fold, no stack ------------------------- */
+/* --- hero --------------------------------------------------------------- */
 
 .hero {
-  padding: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 3vw, 2rem) clamp(1.75rem, 4vw, 2.75rem);
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem) clamp(1.75rem, 4vw, 2.5rem);
 }
 
 .wordmark {
   margin: 0;
   font-family: var(--mono);
-  font-size: clamp(4rem, 17vw, 11rem);
+  font-size: clamp(4rem, 16vw, 10rem);
   font-weight: 700;
-  line-height: 0.82;
-  /* big type needs air, not compression */
+  line-height: 0.84;
   letter-spacing: 0.02em;
 }
 
 .thesis {
-  margin: 1.5rem 0 0;
-  max-width: 42rem;
+  margin: 1.4rem 0 0;
+  max-width: 40rem;
   color: var(--text-muted);
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
   line-height: 1.55;
 }
 
 /* --- readout ------------------------------------------------------------ */
 
 .page {
-  padding: 0 clamp(1rem, 3vw, 2rem) 4rem;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) 4rem;
 }
 
 .readout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2.5rem 0 2rem;
   border-bottom: 1px solid var(--edge);
 }
 
-.figure {
+.headline {
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 1.75rem 1.5rem 1.75rem 0;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.figureValue {
+.headlineValue {
   font-family: var(--mono);
-  font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+  font-size: clamp(3rem, 8vw, 4.5rem);
   font-weight: 500;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
-.figureLabel {
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-faint);
+.headlineLabel {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 18rem;
 }
 
-/* --- the record --------------------------------------------------------- */
+.readoutAside {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  padding-bottom: 0.4rem;
+}
+
+.dot {
+  opacity: 0.5;
+}
+
+/* --- section head ------------------------------------------------------- */
 
 .record {
-  padding-top: 2.5rem;
+  padding-top: 2.75rem;
 }
 
 .sectionHead {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding-bottom: 0.9rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.1rem;
 }
 
 .sectionTitle {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--edge);
+  border-radius: 1px;
 }
 
 .sectionMeta {
   font-family: var(--mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-faint);
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-
-.table thead th {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: var(--ink);
-  text-align: left;
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  padding: 0.6rem 1rem 0.6rem 0;
-  border-bottom: 1px solid var(--edge-strong);
   white-space: nowrap;
 }
 
-.table tbody tr {
+/* --- cards -------------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--edge);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: 1.15rem clamp(1rem, 2.5vw, 1.5rem);
   border-bottom: 1px solid var(--edge);
   transition: background-color 120ms ease;
 }
 
-.table tbody tr:hover {
+.card:last-child {
+  border-bottom: none;
+}
+
+.card:hover {
   background: var(--ink-raised);
 }
 
-.table td {
-  padding: 0.7rem 1rem 0.7rem 0;
-  vertical-align: middle;
+.cardBody {
+  min-width: 0;
 }
 
-.thMark,
-.tdMark {
-  width: 1%;
-  padding-right: 1.25rem !important;
-}
-
-.tdMark {
-  line-height: 0;
-}
-
-.thNum,
-.tdNum {
-  text-align: right;
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.thEnd,
-.tdEnd {
-  text-align: right;
-  padding-right: 0 !important;
-  white-space: nowrap;
+.cardTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .address {
   font-family: var(--mono);
+  font-size: 1.02rem;
+  font-weight: 500;
   border-bottom: 1px solid transparent;
   transition: border-color 120ms ease;
 }
@@ -197,36 +204,75 @@
   border-bottom-color: var(--edge-strong);
 }
 
-.rowCopy .address {
+.cardCopy .address {
   color: var(--text-muted);
+  font-weight: 400;
 }
 
-.new,
-.copy {
+.tagNew,
+.tagCopy {
   font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  margin-right: 0.6rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
 }
 
-.new {
+.tagNew {
   color: var(--verdict-new);
 }
 
-.copy {
+.tagCopy {
   color: var(--verdict-copy);
+}
+
+.cardLine {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 
 .copyOf {
   font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--text-faint);
   border-bottom: 1px solid transparent;
   transition: border-color 120ms ease;
 }
 
-a.copyOf:hover {
+.copyOf:hover {
   border-bottom-color: var(--edge-strong);
+}
+
+/* label-value pairs, the way a spec sheet reads */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.75rem;
+  margin: 0.7rem 0 0;
+}
+
+.fact {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.fact dt {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.fact dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cardMark {
+  line-height: 0;
+  flex-shrink: 0;
 }
 
 /* --- states ------------------------------------------------------------- */
@@ -287,16 +333,13 @@ a.copyOf:hover {
   line-height: 1.7;
 }
 
-@media (max-width: 52rem) {
-  .table thead th:nth-child(5),
-  .table td:nth-child(5) {
-    display: none;
+@media (max-width: 36rem) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
   }
-}
 
-@media (max-width: 38rem) {
-  .table thead th:nth-child(4),
-  .table td:nth-child(4) {
-    display: none;
+  .cardMark {
+    grid-row: 1;
+    justify-self: end;
   }
 }
