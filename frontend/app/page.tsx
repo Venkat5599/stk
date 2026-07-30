@@ -8,19 +8,39 @@ import {
   formatSize,
   shortAddress,
   timeAgo,
+  toWindow,
   type Program,
+  type TimeWindow,
 } from "@/lib/api";
 import styles from "./page.module.css";
 
 export const revalidate = 30;
 
-export default async function Home() {
+type View = "new" | "copies";
+
+const WINDOWS: { value: TimeWindow; label: string }[] = [
+  { value: "today", label: "Last 24h" },
+  { value: "week", label: "This week" },
+  { value: "month", label: "This month" },
+];
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ window?: string; view?: string }>;
+}) {
+  const params = await searchParams;
+  const window = toWindow(params.window);
+  const view: View = params.view === "copies" ? "copies" : "new";
+
   // Deliberately not caught. A failure belongs in error.tsx, because an outage
   // and a quiet chain are different facts and must never look alike.
-  const [stats, page] = await Promise.all([fetchStats("today"), fetchPrograms("today", 150)]);
+  const [stats, page] = await Promise.all([fetchStats(window), fetchPrograms(window, 150)]);
 
+  const shown = page.items.filter((p) => (view === "copies" ? p.copyOf : !p.copyOf));
   const copyRate = stats.copyRate === null ? null : Math.round(stats.copyRate * 100);
-  const clusters = buildClusters(page.items);
+  const href = (next: { window?: TimeWindow; view?: View }) =>
+    `/?window=${next.window ?? window}&view=${next.view ?? view}`;
 
   return (
     <>
@@ -30,7 +50,7 @@ export default async function Home() {
         <div className={styles.navRight}>
           <a
             className={styles.navLink}
-            href={`${apiBaseUrl}/api/programs?window=today`}
+            href={`${apiBaseUrl}/api/programs?window=${window}`}
             rel="noreferrer noopener"
             target="_blank"
           >
@@ -51,105 +71,75 @@ export default async function Home() {
       <Ticker programs={page.items.slice(0, 24)} />
 
       <div className={styles.shell}>
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Last 24 hours</h2>
-          <div className={styles.panels}>
-            <Panel value={String(stats.deploys)} label="Programs deployed" />
-            <Panel value={String(stats.fresh)} label="Carried new code" />
-            <Panel value={String(stats.copies)} label="Were copies" />
-            <Panel
-              value={copyRate === null ? "—" : `${copyRate}%`}
-              label="Copy rate"
-              bar={copyRate}
-            />
+        <section className={styles.summary}>
+          <div className={styles.summaryLead}>
+            <span className={styles.summaryValue}>{stats.fresh}</span>
+            <span className={styles.summaryLabel}>
+              programs carried new code
+              <br />
+              {WINDOWS.find((w) => w.value === window)?.label.toLowerCase()}
+            </span>
+          </div>
+          <div className={styles.summaryAside}>
+            <span>{stats.deploys} deployed</span>
+            <span className={styles.sep}>·</span>
+            <span>{stats.copies} copies</span>
+            <span className={styles.sep}>·</span>
+            <span>{copyRate === null ? "—" : `${copyRate}% copy rate`}</span>
           </div>
         </section>
 
-        {clusters.length > 0 ? (
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Most copied bytecode</h2>
-            <div className={styles.clusters}>
-              {clusters.map((cluster) => (
-                <article className={styles.cluster} key={cluster.originalId}>
-                  <div className={styles.clusterHead}>
-                    <Fingerprint sha256={cluster.sha256} height={24} />
-                    <span className={styles.clusterCount}>
-                      {cluster.copies.length + 1} programs
-                    </span>
-                  </div>
-                  <a
-                    className={styles.clusterOriginal}
-                    href={explorerUrl(cluster.originalId)}
-                    rel="noreferrer noopener"
-                    target="_blank"
-                  >
-                    {shortAddress(cluster.originalId, 6)}
-                  </a>
-                  <span className={styles.clusterLabel}>had these bytes first</span>
-                  <ul className={styles.clusterList}>
-                    {cluster.copies.slice(0, 4).map((copy) => (
-                      <li key={copy.programId}>
-                        <a
-                          className={styles.clusterCopy}
-                          href={explorerUrl(copy.programId)}
-                          rel="noreferrer noopener"
-                          target="_blank"
-                        >
-                          {shortAddress(copy.programId, 6)}
-                        </a>
-                      </li>
-                    ))}
-                    {cluster.copies.length > 4 ? (
-                      <li className={styles.clusterMore}>+{cluster.copies.length - 4} more</li>
-                    ) : null}
-                  </ul>
-                </article>
-              ))}
-            </div>
-          </section>
-        ) : null}
+        <div className={styles.controls}>
+          <div className={styles.tabs}>
+            <a
+              className={view === "new" ? `${styles.tab} ${styles.tabOn}` : styles.tab}
+              href={href({ view: "new" })}
+            >
+              New code
+            </a>
+            <a
+              className={view === "copies" ? `${styles.tab} ${styles.tabOn}` : styles.tab}
+              href={href({ view: "copies" })}
+            >
+              Copies
+            </a>
+          </div>
+          <div className={styles.windows}>
+            {WINDOWS.map((w) => (
+              <a
+                className={w.value === window ? `${styles.win} ${styles.winOn}` : styles.win}
+                href={href({ window: w.value })}
+                key={w.value}
+              >
+                {w.label}
+              </a>
+            ))}
+          </div>
+        </div>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>The record</h2>
-            <span className={styles.sectionMeta}>
-              {page.total} programs
-              {stats.recordBeganAt ? ` · begins ${timeAgo(stats.recordBeganAt)}` : ""}
-            </span>
+            <h2 className={styles.sectionTitle}>
+              {view === "copies"
+                ? "Copies — bytecode already on record"
+                : "New code — no earlier copy on record"}
+            </h2>
+            <span className={styles.rule} aria-hidden="true" />
+            <span className={styles.sectionMeta}>{shown.length} shown</span>
           </div>
 
-          {page.items.length === 0 ? (
+          {shown.length === 0 ? (
             <p className={styles.quiet}>
-              No programs have deployed since the record began. This is the chain being
-              quiet, not stk failing to look.
+              {view === "copies"
+                ? "No duplicate bytecode in this window. Every program here carried code the record had not seen."
+                : "Nothing new in this window. This is the chain being quiet, not stk failing to look."}
             </p>
           ) : (
-            <div className={styles.tableWrap}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th scope="col">Fingerprint</th>
-                    <th scope="col">Program</th>
-                    <th scope="col">Verdict</th>
-                    <th scope="col">Copies</th>
-                    <th className={styles.num} scope="col">
-                      Size
-                    </th>
-                    <th className={styles.num} scope="col">
-                      Slot
-                    </th>
-                    <th className={styles.num} scope="col">
-                      Seen
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {page.items.map((program) => (
-                    <Row key={program.programId} program={program} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <ol className={styles.list}>
+              {shown.map((program) => (
+                <Row key={program.programId} program={program} />
+              ))}
+            </ol>
           )}
         </section>
 
@@ -166,93 +156,62 @@ export default async function Home() {
   );
 }
 
-function Panel({ value, label, bar }: { value: string; label: string; bar?: number | null }) {
-  return (
-    <div className={styles.panel}>
-      <span className={styles.panelValue}>{value}</span>
-      <span className={styles.panelLabel}>{label}</span>
-      {typeof bar === "number" ? (
-        <span className={styles.bar}>
-          <span className={styles.barFill} style={{ inlineSize: `${bar}%` }} />
-        </span>
-      ) : null}
-    </div>
-  );
-}
-
-interface Cluster {
-  originalId: string;
-  sha256: string;
-  copies: Program[];
-}
-
-/**
- * Group copies by the program that carried their bytes first.
- *
- * Derived from the page already fetched rather than a second request: the
- * verdict is decided server-side at insert, so copyOf already names the true
- * original and nothing here has to re-decide it.
- */
-function buildClusters(programs: Program[]): Cluster[] {
-  const byOriginal = new Map<string, Program[]>();
-  for (const program of programs) {
-    if (!program.copyOf) continue;
-    const existing = byOriginal.get(program.copyOf);
-    if (existing) existing.push(program);
-    else byOriginal.set(program.copyOf, [program]);
-  }
-
-  return [...byOriginal.entries()]
-    .map(([originalId, copies]) => ({
-      originalId,
-      sha256: copies[0]?.sha256 ?? "",
-      copies,
-    }))
-    .filter((cluster) => cluster.sha256 !== "")
-    .sort((a, b) => b.copies.length - a.copies.length)
-    .slice(0, 4);
-}
-
 function Row({ program }: { program: Program }) {
   const isCopy = program.verdict === "copy";
 
   return (
-    <tr className={isCopy ? styles.rowCopy : undefined}>
-      <td className={styles.cellMark}>
-        <Fingerprint sha256={program.sha256} height={16} muted={isCopy} />
-      </td>
-      <td>
-        <a
-          className={styles.address}
-          href={explorerUrl(program.programId)}
-          rel="noreferrer noopener"
-          target="_blank"
-        >
-          {shortAddress(program.programId, 6)}
-        </a>
-      </td>
-      <td>
-        <span className={isCopy ? styles.tagCopy : styles.tagNew}>
-          {isCopy ? "COPY" : "NEW"}
-        </span>
-      </td>
-      <td className={styles.cellOf}>
-        {isCopy && program.copyOf ? (
+    <li className={isCopy ? `${styles.row} ${styles.rowCopy}` : styles.row}>
+      <div className={styles.rowBody}>
+        <div className={styles.rowTitle}>
           <a
-            className={styles.copyOf}
-            href={explorerUrl(program.copyOf)}
+            className={styles.address}
+            href={explorerUrl(program.programId)}
             rel="noreferrer noopener"
             target="_blank"
           >
-            {shortAddress(program.copyOf, 4)}
+            {shortAddress(program.programId, 8)}
           </a>
-        ) : (
-          <span className={styles.none}>&mdash;</span>
-        )}
-      </td>
-      <td className={styles.num}>{formatSize(program.sizeBytes)}</td>
-      <td className={styles.num}>{program.deploySlot.toLocaleString("en-US")}</td>
-      <td className={styles.num}>{timeAgo(program.firstSeenAt)}</td>
-    </tr>
+          <span className={isCopy ? styles.tagCopy : styles.tagNew}>
+            {isCopy ? "COPY" : "NEW CODE"}
+          </span>
+        </div>
+
+        <p className={styles.rowLine}>
+          seen {timeAgo(program.firstSeenAt)}
+          {isCopy && program.copyOf ? (
+            <>
+              {" · copies "}
+              <a
+                className={styles.copyOf}
+                href={explorerUrl(program.copyOf)}
+                rel="noreferrer noopener"
+                target="_blank"
+              >
+                {shortAddress(program.copyOf, 6)}
+              </a>
+            </>
+          ) : null}
+        </p>
+
+        <dl className={styles.facts}>
+          <div className={styles.fact}>
+            <dt>size</dt>
+            <dd>{formatSize(program.sizeBytes)}</dd>
+          </div>
+          <div className={styles.fact}>
+            <dt>slot</dt>
+            <dd>{program.deploySlot.toLocaleString("en-US")}</dd>
+          </div>
+          <div className={styles.fact}>
+            <dt>sha256</dt>
+            <dd>{program.sha256.slice(0, 20)}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div className={styles.rowMark}>
+        <Fingerprint sha256={program.sha256} height={40} muted={isCopy} />
+      </div>
+    </li>
   );
 }

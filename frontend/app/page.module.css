@@ -408,3 +408,160 @@
     gap: 1rem;
   }
 }
+
+/* --- summary bar -------------------------------------------------------- */
+
+.summary {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  border: 1px solid var(--edge);
+  margin-top: 1.75rem;
+}
+
+.summaryLead {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.summaryValue {
+  font-family: var(--mono);
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryLabel {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.summaryAside {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+.sep {
+  opacity: 0.45;
+}
+
+/* --- controls ----------------------------------------------------------- */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.1rem 0 0;
+  border-bottom: 1px solid var(--edge);
+}
+
+.tabs {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.tab {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid transparent;
+  transition: color 120ms ease;
+}
+
+.tab:hover {
+  color: var(--text-muted);
+}
+
+.tabOn {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+.windows {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.win {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid transparent;
+  transition: color 120ms ease;
+}
+
+.win:hover {
+  color: var(--text-muted);
+}
+
+.winOn {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+/* --- rows --------------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--edge);
+  border-top: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--edge);
+  transition: background-color 110ms ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: var(--ink-raised);
+}
+
+.rowBody {
+  min-width: 0;
+}
+
+.rowTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.rowLine {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.rowMark {
+  line-height: 0;
+  flex-shrink: 0;
+}

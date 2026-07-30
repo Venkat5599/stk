@@ -17,8 +17,8 @@ const TIMEOUT_MS = 10_000;
 /** Declared here rather than imported from @stk/sdk: Vercel uploads this
  *  directory on its own, so a workspace import would not arrive with it.
  *  These must stay in step with packages/sdk. */
-type TimeWindow = "today" | "week" | "month";
-type ProgramVerdict = "new" | "copy";
+export type TimeWindow = "today" | "week" | "month";
+export type ProgramVerdict = "new" | "copy";
 
 export interface Program {
   programId: string;
@@ -111,3 +111,8 @@ export const explorerUrl = (id: string) => `${EXPLORER_BASE}/${id}`;
 
 /** The public API this deployment reads, for linking readers straight at it. */
 export const apiBaseUrl = API_BASE;
+
+/** Narrow an untrusted query value to a window the API accepts. */
+export function toWindow(value: unknown): TimeWindow {
+  return value === "week" || value === "month" ? value : "today";
+}
