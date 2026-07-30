@@ -92,7 +92,7 @@ export default async function Home({
             </div>
           </div>
           <div className={styles.summaryAside}>
-            {copyRate === null ? "no deploys yet" : `% copy rate`}
+            {copyRate === null ? "no deploys yet" : `${copyRate}% copy rate`}
           </div>
         </section>
 
@@ -167,7 +167,7 @@ function Row({ program }: { program: Program }) {
   const isCopy = program.verdict === "copy";
 
   return (
-    <li className={isCopy ? ` ` : styles.row}>
+    <li className={isCopy ? `${styles.row} ${styles.rowCopy}` : styles.row}>
       <span className={styles.stub} aria-hidden="true">
         {program.programId.slice(0, 2)}
       </span>
