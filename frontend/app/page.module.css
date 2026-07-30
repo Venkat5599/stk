@@ -3,9 +3,9 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 0 clamp(1rem, 4vw, 2.5rem);
-  height: 48px;
+  gap: 1.25rem;
+  padding: 0 clamp(1rem, 2.5vw, 1.75rem);
+  height: 44px;
   border-bottom: 1px solid var(--edge);
   background: var(--ink-raised);
 }
@@ -13,18 +13,24 @@
 .navBrand {
   font-family: var(--mono);
   font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
-.navLinks {
-  display: flex;
-  gap: 1.5rem;
+.navThesis {
+  font-size: 0.78rem;
+  color: var(--text-faint);
   margin-right: auto;
 }
 
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
 .navLink {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   transition: color 120ms ease;
 }
@@ -35,167 +41,242 @@
 
 .navStatus {
   font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--edge);
+}
+
+/* --- shell: full width, this is an instrument not an article ------------ */
+
+.shell {
+  padding: 0 clamp(1rem, 2.5vw, 1.75rem) 3rem;
+}
+
+.section {
+  padding-top: 2rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.85rem;
   font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sectionHead .sectionTitle {
+  margin-bottom: 0.85rem;
+}
+
+.sectionMeta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
   color: var(--text-faint);
 }
 
-/* --- hero --------------------------------------------------------------- */
+/* --- stat panels -------------------------------------------------------- */
 
-.hero {
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem) clamp(1.75rem, 4vw, 2.5rem);
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  border: 1px solid var(--edge);
 }
 
-.wordmark {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: clamp(4rem, 16vw, 10rem);
-  font-weight: 700;
-  line-height: 0.84;
-  letter-spacing: 0.02em;
-}
-
-.thesis {
-  margin: 1.4rem 0 0;
-  max-width: 40rem;
-  color: var(--text-muted);
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-  line-height: 1.55;
-}
-
-/* --- readout ------------------------------------------------------------ */
-
-.page {
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 2.5rem) 4rem;
-}
-
-.readout {
+.panel {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 2.5rem 0 2rem;
-  border-bottom: 1px solid var(--edge);
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.15rem 1.25rem;
+  border-right: 1px solid var(--edge);
 }
 
-.headline {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  flex-wrap: wrap;
+.panel:last-child {
+  border-right: none;
 }
 
-.headlineValue {
+.panelValue {
   font-family: var(--mono);
-  font-size: clamp(3rem, 8vw, 4.5rem);
+  font-size: 2rem;
   font-weight: 500;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
-.headlineLabel {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  max-width: 18rem;
-}
-
-.readoutAside {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--text-faint);
-  padding-bottom: 0.4rem;
-}
-
-.dot {
-  opacity: 0.5;
-}
-
-/* --- section head ------------------------------------------------------- */
-
-.record {
-  padding-top: 2.75rem;
-}
-
-.sectionHead {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding-bottom: 1.1rem;
-}
-
-.sectionTitle {
-  margin: 0;
-  font-size: 0.78rem;
-  font-weight: 600;
+.panelLabel {
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.rule {
-  flex: 1;
-  height: 1px;
-  background: var(--edge);
-  border-radius: 1px;
-}
-
-.sectionMeta {
-  font-family: var(--mono);
-  font-size: 0.72rem;
   color: var(--text-faint);
-  white-space: nowrap;
 }
 
-/* --- cards -------------------------------------------------------------- */
+.bar {
+  display: block;
+  height: 2px;
+  margin-top: 0.5rem;
+  background: var(--edge);
+}
 
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.barFill {
+  display: block;
+  height: 100%;
+  background: var(--text-muted);
+}
+
+/* --- clusters ----------------------------------------------------------- */
+
+.clusters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   border: 1px solid var(--edge);
 }
 
-.card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(1rem, 4vw, 3rem);
-  padding: 1.15rem clamp(1rem, 2.5vw, 1.5rem);
-  border-bottom: 1px solid var(--edge);
-  transition: background-color 120ms ease;
-}
-
-.card:last-child {
-  border-bottom: none;
-}
-
-.card:hover {
-  background: var(--ink-raised);
-}
-
-.cardBody {
+.cluster {
+  padding: 1.15rem 1.25rem;
+  border-right: 1px solid var(--edge);
   min-width: 0;
 }
 
-.cardTitle {
+.cluster:last-child {
+  border-right: none;
+}
+
+.clusterHead {
   display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.clusterCount {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.clusterOriginal {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 120ms ease;
+}
+
+.clusterOriginal:hover {
+  border-bottom-color: var(--edge-strong);
+}
+
+.clusterLabel {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.clusterList {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid var(--edge);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.clusterCopy {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--verdict-copy);
+  border-bottom: 1px solid transparent;
+  transition: border-color 120ms ease;
+}
+
+.clusterCopy:hover {
+  border-bottom-color: var(--edge-strong);
+}
+
+.clusterMore {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+/* --- the record --------------------------------------------------------- */
+
+.tableWrap {
+  border: 1px solid var(--edge);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--ink-raised);
+  text-align: left;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--edge-strong);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--edge);
+  transition: background-color 100ms ease;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: var(--ink-raised);
+}
+
+.table td {
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.cellMark {
+  width: 1%;
+  line-height: 0;
+}
+
+.num {
+  text-align: right;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
 }
 
 .address {
   font-family: var(--mono);
-  font-size: 1.02rem;
-  font-weight: 500;
   border-bottom: 1px solid transparent;
   transition: border-color 120ms ease;
 }
@@ -204,16 +285,15 @@
   border-bottom-color: var(--edge-strong);
 }
 
-.cardCopy .address {
+.rowCopy .address {
   color: var(--text-muted);
-  font-weight: 400;
 }
 
 .tagNew,
 .tagCopy {
   font-family: var(--mono);
   font-size: 0.62rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
 }
 
 .tagNew {
@@ -224,14 +304,13 @@
   color: var(--verdict-copy);
 }
 
-.cardLine {
-  margin: 0.4rem 0 0;
-  font-size: 0.82rem;
-  color: var(--text-muted);
+.cellOf {
+  font-family: var(--mono);
+  font-size: 0.74rem;
 }
 
 .copyOf {
-  font-family: var(--mono);
+  color: var(--text-faint);
   border-bottom: 1px solid transparent;
   transition: border-color 120ms ease;
 }
@@ -240,47 +319,18 @@
   border-bottom-color: var(--edge-strong);
 }
 
-/* label-value pairs, the way a spec sheet reads */
-.facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.75rem;
-  margin: 0.7rem 0 0;
-}
-
-.fact {
-  display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
-}
-
-.fact dt {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.none {
   color: var(--text-faint);
-}
-
-.fact dd {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.cardMark {
-  line-height: 0;
-  flex-shrink: 0;
+  opacity: 0.5;
 }
 
 /* --- states ------------------------------------------------------------- */
 
 .quiet {
-  padding: 4rem 0;
+  padding: 3rem 1.25rem;
+  border: 1px solid var(--edge);
   color: var(--text-muted);
-  max-width: 40rem;
+  margin: 0;
 }
 
 .outage {
@@ -322,24 +372,39 @@
 /* --- footer ------------------------------------------------------------- */
 
 .footer {
-  padding-top: 3rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--edge);
+}
+
+.footerBrand {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
 }
 
 .footerNote {
-  max-width: 46rem;
+  max-width: 48rem;
   margin: 0;
   color: var(--text-faint);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   line-height: 1.7;
 }
 
-@media (max-width: 36rem) {
-  .card {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 40rem) {
+  .panel,
+  .cluster {
+    border-right: none;
+    border-bottom: 1px solid var(--edge);
   }
 
-  .cardMark {
-    grid-row: 1;
-    justify-self: end;
+  .footer {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
