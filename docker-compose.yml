@@ -1,0 +1,35 @@
+# The box this runs on already hosts other stacks, so Postgres publishes no
+# host port at all and the API takes 3021. Caddy terminates TLS in front.
+name: stk
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stk
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: stk
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stk"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://stk:${POSTGRES_PASSWORD}@postgres:5432/stk
+      PORT: "3021"
+    ports:
+      - "127.0.0.1:3021:3021"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
