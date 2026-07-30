@@ -73,19 +73,26 @@ export default async function Home({
       <div className={styles.shell}>
         <section className={styles.summary}>
           <div className={styles.summaryLead}>
-            <span className={styles.summaryValue}>{stats.fresh}</span>
-            <span className={styles.summaryLabel}>
-              programs carried new code
-              <br />
-              {WINDOWS.find((w) => w.value === window)?.label.toLowerCase()}
-            </span>
+            <div className={styles.summaryHead}>
+              <span className={styles.summaryValue}>{stats.deploys}</span>
+              <span className={styles.summaryLabel}>
+                programs deployed {WINDOWS.find((w) => w.value === window)?.label.toLowerCase()}
+              </span>
+            </div>
+            <div className={styles.breakdown}>
+              <span className={styles.breakItem}>
+                <span className={styles.breakValue}>{stats.fresh}</span>
+                <span className={styles.breakLabel}>new code</span>
+              </span>
+              <span className={styles.sep}>·</span>
+              <span className={styles.breakItem}>
+                <span className={styles.breakValue}>{stats.copies}</span>
+                <span className={styles.breakLabel}>copies</span>
+              </span>
+            </div>
           </div>
           <div className={styles.summaryAside}>
-            <span>{stats.deploys} deployed</span>
-            <span className={styles.sep}>·</span>
-            <span>{stats.copies} copies</span>
-            <span className={styles.sep}>·</span>
-            <span>{copyRate === null ? "—" : `${copyRate}% copy rate`}</span>
+            {copyRate === null ? "no deploys yet" : `% copy rate`}
           </div>
         </section>
 
@@ -160,7 +167,11 @@ function Row({ program }: { program: Program }) {
   const isCopy = program.verdict === "copy";
 
   return (
-    <li className={isCopy ? `${styles.row} ${styles.rowCopy}` : styles.row}>
+    <li className={isCopy ? ` ` : styles.row}>
+      <span className={styles.stub} aria-hidden="true">
+        {program.programId.slice(0, 2)}
+      </span>
+
       <div className={styles.rowBody}>
         <div className={styles.rowTitle}>
           <a
