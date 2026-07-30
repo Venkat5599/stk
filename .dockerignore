@@ -3,5 +3,5 @@ node_modules
 **/dist
 **/.next
 .git
-web
+frontend
 packages

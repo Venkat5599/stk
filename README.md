@@ -51,7 +51,7 @@ detected. That is honest v2 work, not something to fudge with a threshold.
 | Path | What it is |
 | --- | --- |
 | `server/` | Fastify API, the poller, and Postgres. Runs as one process. |
-| `web/` | Next.js App Router front end, deployed to Vercel. |
+| `frontend/` | Next.js App Router front end, deployed to Vercel. |
 | `packages/sdk/` | `@stk/sdk` — typed client for the public API. |
 
 ## The SDK

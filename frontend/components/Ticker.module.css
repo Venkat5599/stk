@@ -1,0 +1,62 @@
+.ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--edge);
+  background: var(--ink-raised);
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0.6rem 0;
+  width: max-content;
+  animation: slide 90s linear infinite;
+}
+
+.ticker:hover .track {
+  animation-play-state: paused;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+}
+
+.address {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.new,
+.copy {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.new {
+  color: var(--verdict-new);
+}
+
+.copy {
+  color: var(--verdict-copy);
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* the strip is the list twice over, so half a turn is one clean loop */
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

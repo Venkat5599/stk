@@ -8,7 +8,7 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "dev:server": "pnpm --filter @stk/server dev",
-    "dev:web": "pnpm --filter @stk/web dev"
+    "dev:frontend": "pnpm --filter @stk/frontend dev"
   },
   "engines": { "node": ">=20" },
   "packageManager": "pnpm@10.0.0"

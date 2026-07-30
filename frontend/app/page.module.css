@@ -1,0 +1,302 @@
+/* --- nav ---------------------------------------------------------------- */
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  height: 46px;
+  border-bottom: 1px solid var(--edge);
+  background: var(--ink-raised);
+}
+
+.navBrand {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+  margin-right: auto;
+}
+
+.navLink {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  transition: color 120ms ease;
+}
+
+.navLink:hover {
+  color: var(--text);
+}
+
+.navStatus {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+}
+
+/* --- hero: the wordmark owns the fold, no stack ------------------------- */
+
+.hero {
+  padding: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 3vw, 2rem) clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.wordmark {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(4rem, 17vw, 11rem);
+  font-weight: 700;
+  line-height: 0.82;
+  /* big type needs air, not compression */
+  letter-spacing: 0.02em;
+}
+
+.thesis {
+  margin: 1.5rem 0 0;
+  max-width: 42rem;
+  color: var(--text-muted);
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.55;
+}
+
+/* --- readout ------------------------------------------------------------ */
+
+.page {
+  padding: 0 clamp(1rem, 3vw, 2rem) 4rem;
+}
+
+.readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  border-bottom: 1px solid var(--edge);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.75rem 1.5rem 1.75rem 0;
+}
+
+.figureValue {
+  font-family: var(--mono);
+  font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.figureLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* --- the record --------------------------------------------------------- */
+
+.record {
+  padding-top: 2.5rem;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sectionMeta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--ink);
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 0.6rem 1rem 0.6rem 0;
+  border-bottom: 1px solid var(--edge-strong);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--edge);
+  transition: background-color 120ms ease;
+}
+
+.table tbody tr:hover {
+  background: var(--ink-raised);
+}
+
+.table td {
+  padding: 0.7rem 1rem 0.7rem 0;
+  vertical-align: middle;
+}
+
+.thMark,
+.tdMark {
+  width: 1%;
+  padding-right: 1.25rem !important;
+}
+
+.tdMark {
+  line-height: 0;
+}
+
+.thNum,
+.tdNum {
+  text-align: right;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.thEnd,
+.tdEnd {
+  text-align: right;
+  padding-right: 0 !important;
+  white-space: nowrap;
+}
+
+.address {
+  font-family: var(--mono);
+  border-bottom: 1px solid transparent;
+  transition: border-color 120ms ease;
+}
+
+.address:hover {
+  border-bottom-color: var(--edge-strong);
+}
+
+.rowCopy .address {
+  color: var(--text-muted);
+}
+
+.new,
+.copy {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  margin-right: 0.6rem;
+}
+
+.new {
+  color: var(--verdict-new);
+}
+
+.copy {
+  color: var(--verdict-copy);
+}
+
+.copyOf {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  border-bottom: 1px solid transparent;
+  transition: border-color 120ms ease;
+}
+
+a.copyOf:hover {
+  border-bottom-color: var(--edge-strong);
+}
+
+/* --- states ------------------------------------------------------------- */
+
+.quiet {
+  padding: 4rem 0;
+  color: var(--text-muted);
+  max-width: 40rem;
+}
+
+.outage {
+  max-width: 34rem;
+  margin: clamp(5rem, 20vh, 12rem) auto;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+.outageTitle {
+  font-family: var(--mono);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0 0 0.9rem;
+}
+
+.outageBody {
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0 0 1.75rem;
+}
+
+.retry {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--edge-strong);
+  border-radius: 2px;
+  padding: 0.6rem 1.4rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.retry:hover {
+  background: var(--ink-lifted);
+}
+
+/* --- footer ------------------------------------------------------------- */
+
+.footer {
+  padding-top: 3rem;
+}
+
+.footerNote {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 52rem) {
+  .table thead th:nth-child(5),
+  .table td:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (max-width: 38rem) {
+  .table thead th:nth-child(4),
+  .table td:nth-child(4) {
+    display: none;
+  }
+}

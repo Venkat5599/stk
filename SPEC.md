@@ -218,7 +218,7 @@ The VPS already runs other stacks; ports must not collide.
   ```
   then `caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile` and
   `systemctl reload caddy`. TLS is automatic.
-- Web: `vercel deploy --prod --yes --cwd web`.
+- Web: `vercel deploy --prod --yes --cwd frontend`.
 
 ### Two traps that already cost hours
 
@@ -227,9 +227,9 @@ The VPS already runs other stacks; ports must not collide.
    parse while `/health` looks perfectly healthy. Use
    `printf 'https://host' | vercel env add API_URL production`, then verify with
    `vercel env pull` and `cat -A`.
-2. **Deploy the web app with `--cwd web`.** If `web/` ever depends on a workspace
+2. **Deploy the web app with `--cwd frontend`.** If `frontend/` ever depends on a workspace
    package, Vercel will not upload it — that needs the project's Root Directory
-   set in the dashboard. Keep `web/` self-contained and this never bites.
+   set in the dashboard. Keep `frontend/` self-contained and this never bites.
 
 Secrets live in `server/.env` (chmod 600, gitignored). Needed: `HELIUS_API_KEY`,
 `POSTGRES_PASSWORD`, `DATABASE_URL`.
@@ -249,7 +249,7 @@ works or doesn't, and everything after it is presentation.
    program ids, insert, apply the verdict rule. Verify against a program you can
    check by hand on an explorer.
 5. `/api/programs` and `/api/stats`.
-6. `web/`: the single page, server-rendered, reading the API.
+6. `frontend/`: the single page, server-rendered, reading the API.
 7. Docker Compose + deploy to the VPS, Caddy route, verify `/health` over TLS.
 8. Vercel deploy, set `API_URL`, verify the page renders real rows.
 9. Design pass (see above).
